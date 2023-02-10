@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public GameObject[] blocks; 
     public GameObject twinBlocks;
     GameObject currentBlocks;
+    GameObject nextBlocks1;
+    GameObject nextBlocks2;
     public GameObject[,] fieldBlocks;
 
     List<GameObject> checkedFieldBlocks = new List<GameObject>();
@@ -18,24 +20,24 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         fieldBlocks = new GameObject[6,13];
-        CreateBlocks();
+        StartCreateBlocks();
         //array();
         //StartCoroutine(EraseBlocks());
     }
 
     //not use
-    void array()
-    {
-        for(int x=0; x<6; x++)
-        {
-            for(int y=0; y<10; y++)
-            {
-                GameObject piece = Instantiate(blocks[Random.Range(0,4)]);
-                piece.transform.position = new Vector3(x,y,0);
-                fieldBlocks[x,y] = piece;
-            }
-        }
-    }
+    // void array()
+    // {
+    //     for(int x=0; x<6; x++)
+    //     {
+    //         for(int y=0; y<10; y++)
+    //         {
+    //             GameObject piece = Instantiate(blocks[Random.Range(0,4)]);
+    //             piece.transform.position = new Vector3(x,y,0);
+    //             fieldBlocks[x,y] = piece;
+    //         }
+    //     }
+    // }
 
     public void Drop()
     {
@@ -129,17 +131,55 @@ public class GameManager : MonoBehaviour
         return renketusu;
     }
 
-    public void CreateBlocks()
+    public void StartCreateBlocks()
     {
         currentBlocks = Instantiate(twinBlocks);
         currentBlocks.transform.position = new Vector3(2,GameScrTop,0);
-
         GameObject block1 = Instantiate(blocks[Random.Range(0,4)]);
         block1.transform.position = new Vector3(2,GameScrTop,0);
         block1.transform.SetParent(currentBlocks.transform, true);
-
         GameObject block2 = Instantiate(blocks[Random.Range(0,4)]);
         block2.transform.position = new Vector3(2,GameScrTop+1,0);    
         block2.transform.SetParent(currentBlocks.transform, true);    
+
+        nextBlocks1 = Instantiate(twinBlocks);
+        nextBlocks1.transform.position = new Vector3(7,GameScrTop,0);
+        nextBlocks1.GetComponent<BlocksController>().enabled = false;
+        GameObject block3 = Instantiate(blocks[Random.Range(0,4)]);
+        block3.transform.position = new Vector3(7,GameScrTop,0);
+        block3.transform.SetParent(nextBlocks1.transform, true);
+        GameObject block4 = Instantiate(blocks[Random.Range(0,4)]);
+        block4.transform.position = new Vector3(7,GameScrTop+1,0);    
+        block4.transform.SetParent(nextBlocks1.transform, true);   
+
+        nextBlocks2 = Instantiate(twinBlocks);
+        nextBlocks2.transform.position = new Vector3(9,GameScrTop,0);
+        nextBlocks2.GetComponent<BlocksController>().enabled = false;
+        GameObject block5 = Instantiate(blocks[Random.Range(0,4)]);
+        block5.transform.position = new Vector3(9,GameScrTop,0);
+        block5.transform.SetParent(nextBlocks2.transform, true);
+        GameObject block6 = Instantiate(blocks[Random.Range(0,4)]);
+        block6.transform.position = new Vector3(9,GameScrTop+1,0);    
+        block6.transform.SetParent(nextBlocks2.transform, true);   
+    }
+
+    public void CreateBlocks()
+    {
+        currentBlocks = nextBlocks1;
+        currentBlocks.transform.position = new Vector3(2,GameScrTop,0);
+        currentBlocks.GetComponent<BlocksController>().enabled = true;
+
+        nextBlocks1 = nextBlocks2;
+        nextBlocks1.transform.position = new Vector3(7,GameScrTop,0);
+    
+        nextBlocks2 = Instantiate(twinBlocks);
+        nextBlocks2.transform.position = new Vector3(9,GameScrTop,0);
+        nextBlocks2.GetComponent<BlocksController>().enabled = false;
+        GameObject block5 = Instantiate(blocks[Random.Range(0,4)]);
+        block5.transform.position = new Vector3(9,GameScrTop,0);
+        block5.transform.SetParent(nextBlocks2.transform, true);
+        GameObject block6 = Instantiate(blocks[Random.Range(0,4)]);
+        block6.transform.position = new Vector3(9,GameScrTop+1,0);    
+        block6.transform.SetParent(nextBlocks2.transform, true);   
     }
 }
