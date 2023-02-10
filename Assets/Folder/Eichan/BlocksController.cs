@@ -38,6 +38,26 @@ public class BlocksController : MonoBehaviour
                 this.gameObject.transform.position += new Vector3(0,1,0);//Can't move at the bottom 
                 ChangeToFieldBlocks();//unmovable blocks to fieldblocks
                 this.gameObject.transform.DetachChildren();
+                // FindObjectOfType<GameManager>().StartCreateBlocks();
+                FindObjectOfType<GameManager>().Drop();
+                Destroy(this.gameObject, 10f);//destroy parent in 10 seconds
+                this.enabled = false;//detach this script from parent
+            }
+
+            time_now = Time.time;
+        }
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            while(CanMove())
+            {
+                this.gameObject.transform.position += new Vector3(0,-1,0);
+            }
+            if(!CanMove())
+            {
+                this.gameObject.transform.position += new Vector3(0,1,0);//Can't move at the bottom 
+                ChangeToFieldBlocks();//unmovable blocks to fieldblocks
+                this.gameObject.transform.DetachChildren();
+                // FindObjectOfType<GameManager>().StartCreateBlocks();
                 FindObjectOfType<GameManager>().Drop();
                 Destroy(this.gameObject, 10f);//destroy parent in 10 seconds
                 this.enabled = false;//detach this script from parent
