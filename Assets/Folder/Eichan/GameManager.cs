@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {   //const
     public static int GameScrTop = 11;
     public static int GameScrRight = 6;
+    private const string oxygen = "Red(Clone)";
+    private const string hydrogen = "Blue(Clone)";
 
     public GameObject[] blocks; 
     public GameObject twinBlocks;
@@ -19,20 +21,22 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        fieldBlocks = new GameObject[6,13];
+        fieldBlocks = new GameObject[GameScrRight,GameScrTop+2];
         StartCreateBlocks();
-        //array();
-        //StartCoroutine(EraseBlocks());
+        // array();
+        // StartCoroutine(EraseBlocks());
+        // Debug.Log(CountRenketsu(1,1,0));
+        
     }
-
+    
     //not use
     // void array()
     // {
-    //     for(int x=0; x<6; x++)
+    //     for(int x=0; x<GameScrRight; x++)
     //     {
-    //         for(int y=0; y<10; y++)
+    //         for(int y=0; y<GameScrTop-1; y++)
     //         {
-    //             GameObject piece = Instantiate(blocks[Random.Range(0,4)]);
+    //             GameObject piece = Instantiate(blocks[Random.Range(0,2)]);
     //             piece.transform.position = new Vector3(x,y,0);
     //             fieldBlocks[x,y] = piece;
     //         }
@@ -42,9 +46,9 @@ public class GameManager : MonoBehaviour
     public void Drop()
     {
         int empty_block = 0;
-        for(int x=0; x<6; x++)
+        for(int x=0; x<GameScrRight; x++)
         {
-            for(int y=0; y<13; y++)
+            for(int y=0; y<GameScrTop+2; y++)
             {
                 if(fieldBlocks[x,y] == null)
                 {
@@ -68,14 +72,15 @@ public class GameManager : MonoBehaviour
             CreateBlocks();
         }
     }
+
     bool BoolRenketsu()
     {
-        for(int x=0; x<6; x++)
+        for(int x=0; x<GameScrRight; x++)
         {
-            for(int y=0; y<13; y++)
+            for(int y=0; y<GameScrTop+2; y++)
             {
                 checkedFieldBlocks.Clear();
-                if(CountRenketsu(x, y, 0) >= 4 && fieldBlocks[x,y] != null)
+                if(CountRenketsu(x, y, 0) >= 3 && fieldBlocks[x,y] != null)
                 {
                     return true;
                 }
@@ -83,24 +88,54 @@ public class GameManager : MonoBehaviour
         }
         return false;
     }
+
     //ここをいじる
     IEnumerator EraseBlocks()
     {
-        yield return new WaitForSeconds(0.5f);
-        for(int x=0; x<6; x++)
-        {
-            for(int y=0; y<13; y++)
+        yield return new WaitForSeconds(0.1f);
+        for(int y=0; y<GameScrTop+2; y++)
+        {   
+            for(int x=0; x<GameScrRight; x++)
             {
                 checkedFieldBlocks.Clear();
-                if(CountRenketsu(x, y, 0) >= 4 && fieldBlocks[x,y] != null)
+
+                checkedFieldBlocks.Clear();
+                if(CountRenketsu(x, y, 0) == 5 && fieldBlocks[x,y] != null)//↑→
                 {
                     Destroy(fieldBlocks[x,y]);
+                    Destroy(fieldBlocks[x,y+1]);
+                    Destroy(fieldBlocks[x+1,y]);
+                    yield return new WaitForSeconds(0.1f);
+                }
+                checkedFieldBlocks.Clear();
+                if(CountRenketsu(x, y, 0) == 4 && fieldBlocks[x,y] != null)//←↓
+                {
+                    Destroy(fieldBlocks[x,y]);
+                    Destroy(fieldBlocks[x,y-1]);
+                    Destroy(fieldBlocks[x-1,y]);
+                    yield return new WaitForSeconds(0.1f);
+                }
+                if(CountRenketsu(x, y, 0) == 3 && fieldBlocks[x,y] != null)//↓→
+                {
+                    Destroy(fieldBlocks[x,y]);
+                    Destroy(fieldBlocks[x,y-1]);
+                    Destroy(fieldBlocks[x+1,y]);
+                    yield return new WaitForSeconds(0.1f);
+                }
+                checkedFieldBlocks.Clear();
+                if(CountRenketsu(x, y, 0) == 6 && fieldBlocks[x,y] != null)//←↑
+                {
+                    Destroy(fieldBlocks[x,y]);
+                    Destroy(fieldBlocks[x,y+1]);
+                    Destroy(fieldBlocks[x-1,y]);
+                    yield return new WaitForSeconds(0.1f);
                 }
             }
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         Drop();
     }
+
     //ここをいじる
     int CountRenketsu(int x, int y, int renketusu)
     {
@@ -112,22 +147,37 @@ public class GameManager : MonoBehaviour
         checkedFieldBlocks.Add(fieldBlocks[x,y]);
 
         renketusu++;
-        if(x != GameScrRight-1 && fieldBlocks[x+1,y] != null && fieldBlocks[x,y].name == fieldBlocks[x+1,y].name)//rightside
+        if(y != 0 && fieldBlocks[x,y-1] != null && (fieldBlocks[x,y].name == oxygen) && (fieldBlocks[x,y-1].name == hydrogen))//underside
         {
-            renketusu = CountRenketsu(x+1, y, renketusu);
+            checkedFieldBlocks.Add(fieldBlocks[x,y-1]);
+            renketusu++;
+            if(x != GameScrRight-1 && fieldBlocks[x+1,y] != null && fieldBlocks[x+1,y].name == hydrogen)//rightside
+            {
+                checkedFieldBlocks.Add(fieldBlocks[x+1,y]);
+                renketusu++;
+            }
+            else if(x != 0 && fieldBlocks[x-1,y] != null && fieldBlocks[x-1,y].name == hydrogen)//leftside
+            {
+                checkedFieldBlocks.Add(fieldBlocks[x-1,y]);
+                renketusu += 2 ;
+            }
         }
-        if(x != 0 && fieldBlocks[x-1,y] != null && fieldBlocks[x,y].name == fieldBlocks[x-1,y].name)//leftside
-        {
-            renketusu = CountRenketsu(x-1, y, renketusu);
+        else if(y != GameScrTop+1 && fieldBlocks[x,y+1] != null && (fieldBlocks[x,y].name == oxygen) && (fieldBlocks[x,y+1].name == hydrogen))//upperside
+        {   
+            checkedFieldBlocks.Add(fieldBlocks[x,y+1]);
+            renketusu++;
+            if(x != GameScrRight-1 && fieldBlocks[x+1,y] != null && fieldBlocks[x+1,y].name == hydrogen)//rightside
+            {
+                checkedFieldBlocks.Add(fieldBlocks[x+1,y]);
+                renketusu += 3 ;
+            }
+            else if(x != 0 && fieldBlocks[x-1,y] != null && fieldBlocks[x-1,y].name == hydrogen)//leftside
+            {
+                checkedFieldBlocks.Add(fieldBlocks[x-1,y]);
+                renketusu += 4 ;
+            }
         }
-        if(y != 0 && fieldBlocks[x,y-1] != null && fieldBlocks[x,y].name == fieldBlocks[x,y-1].name)//underside
-        {
-            renketusu = CountRenketsu(x, y-1, renketusu);
-        }
-        if(y != GameScrTop+1 && fieldBlocks[x,y+1] != null && fieldBlocks[x,y].name == fieldBlocks[x,y+1].name)//upperside
-        {
-            renketusu = CountRenketsu(x, y+1, renketusu);
-        }
+      
         return renketusu;
     }
 
