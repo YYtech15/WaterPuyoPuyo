@@ -5,26 +5,17 @@ using TMPro;
 
 public class ScoreRecorder : MonoBehaviour
 {
+    public int score;
     private int AddPoint = 100;
     [SerializeField] TextMeshProUGUI currentScoreText;
 
     void Start()
     {
-        // スコア表示をするテキストオブジェクトを取得
-        currentScoreText = GetComponent<TextMeshProUGUI>();
         // スコア変数
-        int score = 0;
+        score = 0;
+        currentScoreText.text = score.ToString();
         // スコアレコーダーの保持
         DontDestroyOnLoad(this.gameObject);
-    }
-
-    // 水が消えるたびにポイントを加算する
-    void Update()
-    {
-        // if()
-        // {
-        //     AddScore();
-        // }
     }
 
     // スコアを加算する関数
