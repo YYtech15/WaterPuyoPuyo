@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         Drop();
     }
-
+    
     //ここをいじる
     int CountRenketsu(int x, int y, int renketusu)
     {
