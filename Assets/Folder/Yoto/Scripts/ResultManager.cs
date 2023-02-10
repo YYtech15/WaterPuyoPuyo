@@ -55,27 +55,27 @@ public class ResultManager : MonoBehaviour
     {
         if(score <= 300)
         {
-            judgeText.text = "あなたの得た水量はおちょこ程度";
+            judgeText.text = "A Cup!!";
         }
         else if(score <= 600)
         {
-            judgeText.text = "あなたの得た水量はコップ1杯程度";
+            judgeText.text = "A Bucket!!";
         }
         else if(score <= 1000)
         {
-            judgeText.text = "あなたの得た水量はバケツ１杯程度";
+            judgeText.text = "A Bath!!";
         }
         else if(score <= 1500)
         {
-            judgeText.text = "あなたの得た水量はプール程度";
+            judgeText.text = "Pool!!";
         }
         else if(score <= 2000)
         {
-            judgeText.text = "あなたの得た水量は湖程度";
+            judgeText.text = "Lake!!";
         }
         else
         {
-            judgeText.text = "あなたの得た水量は海程度";
+            judgeText.text = "Sea!!";
         }
     }
 
