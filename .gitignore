@@ -77,15 +77,15 @@ crashlytics-build.properties
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
-# User-specific files
-*.rsuser
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
+# # User-specific files
+# *.rsuser
+# *.suo
+# *.user
+# *.userosscache
+# *.sln.docstates
 
-# User-specific files (MonoDevelop/Xamarin Studio)
-*.userprefs
+# # User-specific files (MonoDevelop/Xamarin Studio)
+# *.userprefs
 
 # Mono auto generated files
 mono_crash.*
@@ -147,7 +147,6 @@ StyleCopReport.xml
 *_p.c
 *_h.h
 *.ilk
-*.meta
 *.obj
 *.iobj
 *.pch
