@@ -5,7 +5,6 @@ using TMPro;
 
 public class ScoreRecorder : MonoBehaviour
 {
-    public int score;
     private int AddPoint = 100;
     [SerializeField] TextMeshProUGUI currentScoreText;
 
@@ -14,7 +13,7 @@ public class ScoreRecorder : MonoBehaviour
         // スコア表示をするテキストオブジェクトを取得
         currentScoreText = GetComponent<TextMeshProUGUI>();
         // スコア変数
-        score = 0;
+        int score = 0;
         // スコアレコーダーの保持
         DontDestroyOnLoad(this.gameObject);
     }
