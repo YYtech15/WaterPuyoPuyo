@@ -10,6 +10,15 @@ public class ResultManager : MonoBehaviour
     [SerializeField] GameObject retryButton;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI judgeText;
+    [SerializeField] AudioSource sound1;
+    [SerializeField] AudioSource sound2;
+    [SerializeField] AudioSource sound3;
+    [SerializeField] AudioSource sound4;
+    [SerializeField] AudioSource sound5;
+    [SerializeField] AudioSource sound6;
+
+
+
     // int score = 800;
     string scoreStr;
     int score;
@@ -55,26 +64,32 @@ public class ResultManager : MonoBehaviour
     {
         if(score <= 300)
         {
+            sound1.Play();
             judgeText.text = "A Cup!!";
         }
         else if(score <= 600)
         {
+            sound2.Play();
             judgeText.text = "A Bucket!!";
         }
         else if(score <= 1000)
         {
+            sound3.Play();
             judgeText.text = "A Bath!!";
         }
         else if(score <= 1500)
         {
+            sound4.Play();
             judgeText.text = "Pool!!";
         }
         else if(score <= 2000)
         {
+            sound5.Play();
             judgeText.text = "Lake!!";
         }
         else
         {
+            sound6.Play();
             judgeText.text = "Sea!!";
         }
     }
