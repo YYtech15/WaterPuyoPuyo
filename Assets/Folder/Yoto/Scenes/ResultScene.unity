@@ -1741,6 +1741,8 @@ MonoBehaviour:
   sound4: {fileID: 816464236}
   sound5: {fileID: 883199472}
   sound6: {fileID: 112241437}
+  scoreStr: 
+  score: 0
 --- !u!114 &1575140779
 MonoBehaviour:
   m_ObjectHideFlags: 0
