@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 7246742a1f0a7ce4f8c716963687539f
+=======
+<<<<<<<< HEAD:Assets/Resources/IMG/level_ochoko.png.meta
+guid: 34724134ab8757142b87c83b3bf9066b
+========
+guid: 1655f9eff654a9e48ae9e6ea4c58b7f2
+>>>>>>>> 61bdec1c79e24e1570adfc291000c415884da55f:Assets/Resources/IMG/old_puyo_o.png.meta
+>>>>>>> 61bdec1c79e24e1570adfc291000c415884da55f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

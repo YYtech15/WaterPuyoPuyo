@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 3e97e363dc9135a4599bdc817311647d
+=======
+<<<<<<<< HEAD:Assets/Resources/IMG/level_bucket.png.meta
+guid: bf3f48dd5f4a67042bdc063e1c2adf3d
+========
+guid: 8dbe54b8022ecb64aa81b2ba6d3e6a5e
+>>>>>>>> 61bdec1c79e24e1570adfc291000c415884da55f:Assets/Resources/IMG/old_puyo_h.png.meta
+>>>>>>> 61bdec1c79e24e1570adfc291000c415884da55f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
