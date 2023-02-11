@@ -68,17 +68,33 @@ public class BlocksController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.R))
         {
             this.gameObject.transform.RotateAround(transform.position, new Vector3(0,0,1), -90);
+            foreach(Transform childBlocks in transform)
+            {
+                childBlocks.transform.RotateAround(childBlocks.transform.position, new Vector3(0,0,1), 90);
+            }
             if(!CanMove())
             {
                 this.gameObject.transform.RotateAround(transform.position, new Vector3(0,0,1), 90);
+                foreach(Transform childBlocks in transform)
+                {
+                    childBlocks.transform.RotateAround(childBlocks.transform.position, new Vector3(0,0,1), -90);
+                }
             }
         }
         if(Input.GetKeyDown(KeyCode.W))
         {
             this.gameObject.transform.RotateAround(transform.position, new Vector3(0,0,1), 90);
+            foreach(Transform childBlocks in transform)
+            {
+                childBlocks.transform.RotateAround(childBlocks.transform.position, new Vector3(0,0,1), -90);
+            }
             if(!CanMove())
             {
                 this.gameObject.transform.RotateAround(transform.position, new Vector3(0,0,1), -90);
+                foreach(Transform childBlocks in transform)
+                {
+                    childBlocks.transform.RotateAround(childBlocks.transform.position, new Vector3(0,0,1), 90);
+                }
             }
         }
     }
