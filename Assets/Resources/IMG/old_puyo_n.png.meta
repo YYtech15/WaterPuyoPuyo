@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+guid: d5c6aff4da476134c9d4211753fd963c
+=======
+<<<<<<<< HEAD:Assets/Resources/IMG/level_cup.png.meta
+guid: 2245addb5db61c74e8ae51e494d48f60
+========
 guid: 278e0da9728c93549a377dfebd944149
+>>>>>>>> 61bdec1c79e24e1570adfc291000c415884da55f:Assets/Resources/IMG/old_puyo_n.png.meta
+>>>>>>> 61bdec1c79e24e1570adfc291000c415884da55f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -91,18 +99,6 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Server
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1

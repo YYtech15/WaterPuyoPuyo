@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+guid: f9fde11f9d95980498ccabcbb0c5a5d6
+=======
+<<<<<<<< HEAD:Assets/Resources/IMG/background.png.meta
+guid: 0f77c52ae10f970409c07cbc4c36c99a
+========
 guid: 36d35f400f9e66b4a9096936839e0b93
+>>>>>>>> 61bdec1c79e24e1570adfc291000c415884da55f:Assets/Resources/IMG/old_puyo_c.png.meta
+>>>>>>> 61bdec1c79e24e1570adfc291000c415884da55f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -91,18 +99,6 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Server
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
