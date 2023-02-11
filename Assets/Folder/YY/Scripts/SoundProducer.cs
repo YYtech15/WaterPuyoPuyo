@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SoundProducer : MonoBehaviour
 {
-
     public AudioClip sound1;
     AudioSource audioSource;
     
@@ -13,7 +12,8 @@ public class SoundProducer : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
     
-    void Update () {
+    public void SeProduct()
+    {
         //音(sound1)を鳴らす
         audioSource.PlayOneShot(sound1);
     }
