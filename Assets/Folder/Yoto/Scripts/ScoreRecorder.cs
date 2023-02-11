@@ -6,11 +6,14 @@ using TMPro;
 public class ScoreRecorder : MonoBehaviour
 {
     public int score;
-    private int AddPoint = 100;
+    public int AddPoint = 100;
     [SerializeField] TextMeshProUGUI currentScoreText;
+    GameManager gameManager;
 
     void Start()
     {
+        GameObject obj = GameObject.Find("GameManager");
+        gameManager = obj.GetComponent<GameManager>();
         // スコア変数
         score = 0;
         currentScoreText.text = score.ToString();
@@ -26,7 +29,7 @@ public class ScoreRecorder : MonoBehaviour
     // スコアを加算する関数
     public void AddScore()
     {
-        score += AddPoint;
-        currentScoreText.text = score.ToString() + "L"; 
+        score += AddPoint * gameManager.rensa;
+        currentScoreText.text = score.ToString() + "mL"; 
     }
 }

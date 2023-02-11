@@ -42,7 +42,7 @@ public class ResultManager : MonoBehaviour
         // scoreStr = score.ToString(); 
         yield return new WaitForSeconds(1f);
         // 変換した文字をテキストに入れて表示する
-        scoreText.text = scoreStr + "L";
+        scoreText.text = scoreStr + "mL";
         GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1f);
         JudgeAmount();
@@ -52,12 +52,12 @@ public class ResultManager : MonoBehaviour
 
     public void OnRetryButton()
     {
-        // SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Game");
     }
 
     public void OnTitleScene()
     {
-        // SceneManager.LoadScene("Title");
+        SceneManager.LoadScene("TitleScene");
     }
 
     private void JudgeAmount()

@@ -6,9 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Folder/Yoto/Scenes/SampleGameScene.unity
-    guid: fe33ddf7e8f5a4445b65072564d55d68
+    path: Assets/Scenes/TitleScene.unity
+    guid: 1a3823a6fc4edc645943a05189baaf5b
+  - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: e0a2508e6ccc17747955173de36c93b9
   - enabled: 1
     path: Assets/Scenes/ResultScene.unity
     guid: acd47ced88523684c93aa3c62cdd508d
+  - enabled: 0
+    path: Assets/Folder/Yoto/Scenes/SampleGameScene.unity
+    guid: fe33ddf7e8f5a4445b65072564d55d68
   m_configObjects: {}

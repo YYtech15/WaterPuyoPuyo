@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {   //const
@@ -10,6 +11,8 @@ public class GameManager : MonoBehaviour
     public string hydrogen = "Blue(Clone)";
     public string carbon = "Green(Clone)";
 
+    [SerializeField]private string nextScene;
+
     public int score;
     public int rensa = 0;
     public GameObject[] blocks; 
@@ -18,12 +21,14 @@ public class GameManager : MonoBehaviour
     GameObject nextBlocks1;
     GameObject nextBlocks2;
     public GameObject[,] fieldBlocks;
-
+    ScoreRecorder scoreRecorder;
     List<GameObject> checkedFieldBlocks = new List<GameObject>();
     
     // Start is called before the first frame update
     void Start()
     {
+        GameObject obj = GameObject.Find("ScoreRecorder");
+        scoreRecorder = obj.GetComponent<ScoreRecorder>();
         fieldBlocks = new GameObject[GameScrRight,GameScrTop+2];
         StartCreateBlocks();
         // array();
@@ -68,6 +73,7 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(EraseBlocks());
             rensa++;
+            scoreRecorder.AddScore();
             Debug.Log("Count: " + rensa);
         }
         if(!JudgeRenketsu())
@@ -96,7 +102,7 @@ public class GameManager : MonoBehaviour
         Destroy(currentBlocks);
         Destroy(nextBlocks1);
         Destroy(nextBlocks2);
-        
+        SceneManager.LoadScene(nextScene, LoadSceneMode.Single);
     }
 
     bool CanCreateBlock()
