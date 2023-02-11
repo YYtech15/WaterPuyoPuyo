@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
             rensa++;
             PlaySound(0);
             scoreRecorder.AddScore();
-            Debug.Log("Count: " + rensa);
+            // Debug.Log("Count: " + rensa);
         }
         if(!JudgeRenketsu())
         {   
