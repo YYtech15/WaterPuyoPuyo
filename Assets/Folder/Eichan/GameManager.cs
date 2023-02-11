@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public string carbon = "Green(Clone)";
 
     [SerializeField]private string nextScene;
+    public List<AudioClip> soundEffects;
+    private AudioSource audioSource;
 
     public int score;
     public int rensa = 0;
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         GameObject obj = GameObject.Find("ScoreRecorder");
         scoreRecorder = obj.GetComponent<ScoreRecorder>();
         fieldBlocks = new GameObject[GameScrRight,GameScrTop+2];
@@ -48,6 +51,12 @@ public class GameManager : MonoBehaviour
     //         }
     //     }
     // }
+
+    public void PlaySound(int soundIndex)
+    {
+        audioSource.clip = soundEffects[soundIndex];
+        audioSource.Play();
+    }
 
     public void Drop()
     {
@@ -73,6 +82,7 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(EraseBlocks());
             rensa++;
+            PlaySound(0);
             scoreRecorder.AddScore();
             Debug.Log("Count: " + rensa);
         }
