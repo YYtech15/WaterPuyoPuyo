@@ -115,7 +115,7 @@ public class ResultManager : MonoBehaviour
     public void FadeAnim(int animIndex)
     {
         JudgeImg.sprite = judgeSprites[animIndex];
-        // JudgeImg.sprite.canvasRenderer.SetAlpha(0.0f);
+        JudgeImg.canvasRenderer.SetAlpha(0.0f);
         JudgeImg.CrossFadeAlpha(1f,fadeInTime,false);
     }
 }
