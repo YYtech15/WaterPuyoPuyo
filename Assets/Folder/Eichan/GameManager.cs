@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {   //const
-    public static int GameScrTop = 11;
+    public static int GameScrTop = 12;
     public static int GameScrRight = 6;
-    private const string oxygen = "Red(Clone)";
-    private const string hydrogen = "Blue(Clone)";
+    public string oxygen = "Red(Clone)";
+    public string hydrogen = "Blue(Clone)";
+    public string carbon = "Green(Clone)";
 
+    public int score;
+    public int rensa = 0;
     public GameObject[] blocks; 
     public GameObject twinBlocks;
     GameObject currentBlocks;
@@ -25,23 +28,21 @@ public class GameManager : MonoBehaviour
         StartCreateBlocks();
         // array();
         // StartCoroutine(EraseBlocks());
-        // Debug.Log(CountRenketsu(1,1,0));
-        
     }
     
-    //not use
-    // void array()
-    // {
-    //     for(int x=0; x<GameScrRight; x++)
-    //     {
-    //         for(int y=0; y<GameScrTop-1; y++)
-    //         {
-    //             GameObject piece = Instantiate(blocks[Random.Range(0,2)]);
-    //             piece.transform.position = new Vector3(x,y,0);
-    //             fieldBlocks[x,y] = piece;
-    //         }
-    //     }
-    // }
+    //to debug
+    void array()
+    {
+        for(int x=0; x<GameScrRight; x++)
+        {
+            for(int y=0; y<GameScrTop-1; y++)
+            {
+                GameObject piece = Instantiate(blocks[Random.Range(0,3)]);
+                piece.transform.position = new Vector3(x,y,0);
+                fieldBlocks[x,y] = piece;
+            }
+        }
+    }
 
     public void Drop()
     {
@@ -63,24 +64,58 @@ public class GameManager : MonoBehaviour
             }
             empty_block = 0;
         }
-        if(BoolRenketsu())
+        if(JudgeRenketsu())
         {
             StartCoroutine(EraseBlocks());
         }
-        if(!BoolRenketsu())
-        {
-            CreateBlocks();
+        if(!JudgeRenketsu())
+        {   
+            rensa = 0;
+            if(CanCreateBlock())
+            {
+                CreateBlocks();
+            }
+            else if(!CanCreateBlock())
+            {
+                GameOver();
+            }
         }
     }
 
-    bool BoolRenketsu()
+    void GameOver()
     {
         for(int x=0; x<GameScrRight; x++)
         {
             for(int y=0; y<GameScrTop+2; y++)
             {
+                Destroy(fieldBlocks[x,y]);
+            }
+        }
+        Destroy(currentBlocks);
+        Destroy(nextBlocks1);
+        Destroy(nextBlocks2);
+    }
+
+    bool CanCreateBlock()
+    {
+        for(int x=0; x<GameScrRight; x++)
+            {
+                if(fieldBlocks[x,GameScrTop] != null)//ゲームオーバーの高さってどこまで？
+                {
+                    return false;
+                }
+            }
+        return true;
+    }
+
+    bool JudgeRenketsu()
+    {
+        for(int y=0; y<GameScrTop+2; y++)
+        {
+            for(int x=0; x<GameScrRight; x++)
+            {
                 checkedFieldBlocks.Clear();
-                if(CountRenketsu(x, y, 0) >= 3 && fieldBlocks[x,y] != null)
+                if((OtoH_JudgeRenketsu(x,y) || CtoO_JudgeRenketsu(x,y)) && fieldBlocks[x,y] != null)
                 {
                     return true;
                 }
@@ -89,7 +124,28 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    //ここをいじる
+
+            bool OtoH_JudgeRenketsu(int x, int y)
+            {
+                checkedFieldBlocks.Clear();
+                if(CountH_fromO(x, y, 0) >= 3 && CountH_fromO(x, y, 0) <= 6 && fieldBlocks[x,y] != null)
+                {
+                    return true;
+                }
+                return false;
+            }
+            bool CtoO_JudgeRenketsu(int x, int y)
+            {
+                checkedFieldBlocks.Clear();
+                if(CountO_fromC(x, y, 0) >= 7 && CountO_fromC(x, y, 0) <= 8 && fieldBlocks[x,y] != null)
+                {
+                    return true;
+                }
+                return false;
+            }
+
+
+
     IEnumerator EraseBlocks()
     {
         yield return new WaitForSeconds(0.1f);
@@ -97,47 +153,85 @@ public class GameManager : MonoBehaviour
         {   
             for(int x=0; x<GameScrRight; x++)
             {
-                checkedFieldBlocks.Clear();
-
-                checkedFieldBlocks.Clear();
-                if(CountRenketsu(x, y, 0) == 5 && fieldBlocks[x,y] != null)//↑→
-                {
-                    Destroy(fieldBlocks[x,y]);
-                    Destroy(fieldBlocks[x,y+1]);
-                    Destroy(fieldBlocks[x+1,y]);
-                    yield return new WaitForSeconds(0.1f);
-                }
-                checkedFieldBlocks.Clear();
-                if(CountRenketsu(x, y, 0) == 4 && fieldBlocks[x,y] != null)//←↓
-                {
-                    Destroy(fieldBlocks[x,y]);
-                    Destroy(fieldBlocks[x,y-1]);
-                    Destroy(fieldBlocks[x-1,y]);
-                    yield return new WaitForSeconds(0.1f);
-                }
-                if(CountRenketsu(x, y, 0) == 3 && fieldBlocks[x,y] != null)//↓→
-                {
-                    Destroy(fieldBlocks[x,y]);
-                    Destroy(fieldBlocks[x,y-1]);
-                    Destroy(fieldBlocks[x+1,y]);
-                    yield return new WaitForSeconds(0.1f);
-                }
-                checkedFieldBlocks.Clear();
-                if(CountRenketsu(x, y, 0) == 6 && fieldBlocks[x,y] != null)//←↑
-                {
-                    Destroy(fieldBlocks[x,y]);
-                    Destroy(fieldBlocks[x,y+1]);
-                    Destroy(fieldBlocks[x-1,y]);
-                    yield return new WaitForSeconds(0.1f);
-                }
+                StartCoroutine(DestroyH2O(x,y));
+                StartCoroutine(DestroyCO2(x,y));
             }
         }
         yield return new WaitForSeconds(0.1f);
         Drop();
     }
-    
-    //ここをいじる
-    int CountRenketsu(int x, int y, int renketusu)
+
+            IEnumerator DestroyH2O(int x, int y)
+            {
+                checkedFieldBlocks.Clear();
+                yield return new WaitForSeconds(0.4f);
+                if(CountH_fromO(x, y, 0) == 5 && fieldBlocks[x,y] != null)//↑→
+                {
+                    Destroy(fieldBlocks[x,y]);
+                    Destroy(fieldBlocks[x,y+1]);
+                    Destroy(fieldBlocks[x+1,y]);
+                    rensa++;
+                    Debug.Log("Count: " + rensa);
+                }
+                checkedFieldBlocks.Clear();
+                yield return new WaitForSeconds(0.2f);
+                if(CountH_fromO(x, y, 0) == 4 && fieldBlocks[x,y] != null)//←↓
+                {
+                    Destroy(fieldBlocks[x,y]);
+                    Destroy(fieldBlocks[x,y-1]);
+                    Destroy(fieldBlocks[x-1,y]);
+                    rensa++;
+                    Debug.Log("Count: " + rensa);
+                }
+                checkedFieldBlocks.Clear();
+                yield return new WaitForSeconds(0.1f);
+                if(CountH_fromO(x, y, 0) == 3 && fieldBlocks[x,y] != null)//↓→
+                {
+                    Destroy(fieldBlocks[x,y]);
+                    Destroy(fieldBlocks[x,y-1]);
+                    Destroy(fieldBlocks[x+1,y]);
+                    rensa++;
+                    Debug.Log("Count: " + rensa);
+                }
+                checkedFieldBlocks.Clear();
+                yield return new WaitForSeconds(0.05f);
+                if(CountH_fromO(x, y, 0) == 6 && fieldBlocks[x,y] != null)//←↑
+                {
+                    Destroy(fieldBlocks[x,y]);
+                    Destroy(fieldBlocks[x,y+1]);
+                    Destroy(fieldBlocks[x-1,y]);
+                    rensa++;
+                    Debug.Log("Count: " + rensa);
+                }
+                checkedFieldBlocks.Clear();
+            }
+
+            IEnumerator DestroyCO2(int x, int y)
+            {
+                checkedFieldBlocks.Clear();
+                if(CountO_fromC(x, y, 0) == 7 && fieldBlocks[x,y] != null)//↑↓
+                {
+                    Destroy(fieldBlocks[x,y]);
+                    Destroy(fieldBlocks[x,y+1]);
+                    Destroy(fieldBlocks[x,y-1]);
+                    rensa++;
+                    Debug.Log("Count: " + rensa);
+                    yield return new WaitForSeconds(0.5f);
+                }
+                checkedFieldBlocks.Clear();
+                if(CountO_fromC(x, y, 0) == 8 && fieldBlocks[x,y] != null)//←→
+                {
+                    Destroy(fieldBlocks[x,y]);
+                    Destroy(fieldBlocks[x+1,y]);
+                    Destroy(fieldBlocks[x-1,y]);
+                    rensa++;
+                    Debug.Log("Count: " + rensa);
+                    yield return new WaitForSeconds(0.5f);
+                }
+
+            }
+
+    int CountH_fromO(int x, int y, int renketusu)
     {
         //check countedfieldblock or not
         if(fieldBlocks[x,y] == null || checkedFieldBlocks.Contains(fieldBlocks[x,y]))
@@ -181,6 +275,39 @@ public class GameManager : MonoBehaviour
         return renketusu;
     }
 
+    int CountO_fromC(int x, int y, int renketusu)
+    {
+        //check countedfieldblock or not
+        if(fieldBlocks[x,y] == null || checkedFieldBlocks.Contains(fieldBlocks[x,y]))
+        {
+            return renketusu;
+        }
+        checkedFieldBlocks.Add(fieldBlocks[x,y]);
+
+        renketusu++;
+        if(y != 0 && fieldBlocks[x,y-1] != null && (fieldBlocks[x,y].name == carbon) && (fieldBlocks[x,y-1].name == oxygen))//underside
+        {
+            checkedFieldBlocks.Add(fieldBlocks[x,y-1]);
+            renketusu++;
+            if(y != GameScrTop+1 && fieldBlocks[x,y+1] != null && (fieldBlocks[x,y+1].name == oxygen))//upperside
+            {
+                checkedFieldBlocks.Add(fieldBlocks[x,y+1]);
+                renketusu += 5;
+            }
+        }
+        else if(x != 0 && fieldBlocks[x-1,y] != null && (fieldBlocks[x,y].name == carbon) && (fieldBlocks[x-1,y].name == oxygen))//leftside
+        {   
+            checkedFieldBlocks.Add(fieldBlocks[x-1,y]);
+            renketusu++;
+            if(x != GameScrRight-1 && fieldBlocks[x+1,y] != null && fieldBlocks[x+1,y].name == oxygen)//rightside
+            {
+                checkedFieldBlocks.Add(fieldBlocks[x+1,y]);
+                renketusu += 6 ;
+            }   
+        }     
+        return renketusu;
+    }
+
     public void StartCreateBlocks()
     {
         currentBlocks = Instantiate(twinBlocks);
@@ -193,23 +320,23 @@ public class GameManager : MonoBehaviour
         block2.transform.SetParent(currentBlocks.transform, true);    
 
         nextBlocks1 = Instantiate(twinBlocks);
-        nextBlocks1.transform.position = new Vector3(7,GameScrTop,0);
+        nextBlocks1.transform.position = new Vector3(7,GameScrTop-1,0);
         nextBlocks1.GetComponent<BlocksController>().enabled = false;
         GameObject block3 = Instantiate(blocks[Random.Range(0,4)]);
-        block3.transform.position = new Vector3(7,GameScrTop,0);
+        block3.transform.position = new Vector3(7,GameScrTop-1,0);
         block3.transform.SetParent(nextBlocks1.transform, true);
         GameObject block4 = Instantiate(blocks[Random.Range(0,4)]);
-        block4.transform.position = new Vector3(7,GameScrTop+1,0);    
+        block4.transform.position = new Vector3(7,GameScrTop,0);    
         block4.transform.SetParent(nextBlocks1.transform, true);   
 
         nextBlocks2 = Instantiate(twinBlocks);
-        nextBlocks2.transform.position = new Vector3(9,GameScrTop,0);
+        nextBlocks2.transform.position = new Vector3(9,GameScrTop-1,0);
         nextBlocks2.GetComponent<BlocksController>().enabled = false;
         GameObject block5 = Instantiate(blocks[Random.Range(0,4)]);
-        block5.transform.position = new Vector3(9,GameScrTop,0);
+        block5.transform.position = new Vector3(9,GameScrTop-1,0);
         block5.transform.SetParent(nextBlocks2.transform, true);
         GameObject block6 = Instantiate(blocks[Random.Range(0,4)]);
-        block6.transform.position = new Vector3(9,GameScrTop+1,0);    
+        block6.transform.position = new Vector3(9,GameScrTop,0);    
         block6.transform.SetParent(nextBlocks2.transform, true);   
     }
 
@@ -220,16 +347,16 @@ public class GameManager : MonoBehaviour
         currentBlocks.GetComponent<BlocksController>().enabled = true;
 
         nextBlocks1 = nextBlocks2;
-        nextBlocks1.transform.position = new Vector3(7,GameScrTop,0);
+        nextBlocks1.transform.position = new Vector3(7,GameScrTop-1,0);
     
         nextBlocks2 = Instantiate(twinBlocks);
-        nextBlocks2.transform.position = new Vector3(9,GameScrTop,0);
+        nextBlocks2.transform.position = new Vector3(9,GameScrTop-1,0);
         nextBlocks2.GetComponent<BlocksController>().enabled = false;
         GameObject block5 = Instantiate(blocks[Random.Range(0,4)]);
-        block5.transform.position = new Vector3(9,GameScrTop,0);
+        block5.transform.position = new Vector3(9,GameScrTop-1,0);
         block5.transform.SetParent(nextBlocks2.transform, true);
         GameObject block6 = Instantiate(blocks[Random.Range(0,4)]);
-        block6.transform.position = new Vector3(9,GameScrTop+1,0);    
+        block6.transform.position = new Vector3(9,GameScrTop,0);    
         block6.transform.SetParent(nextBlocks2.transform, true);   
     }
 }
