@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {   //const
-    public static int GameScrTop = 12;
+    public static int GameScrTop = 9;
     public static int GameScrRight = 6;
     public string oxygen = "Red(Clone)";
     public string hydrogen = "Blue(Clone)";
