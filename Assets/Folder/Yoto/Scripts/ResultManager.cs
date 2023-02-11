@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class ResultManager : MonoBehaviour
 {
@@ -10,11 +11,15 @@ public class ResultManager : MonoBehaviour
     [SerializeField] GameObject retryButton;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI judgeText;
+    [SerializeField] AudioSource resultAudio;
     // int score = 800;
     public List<AudioClip> soundEffects;
     private AudioSource audioSource;
     string scoreStr;
     int score;
+    public Image JudgeImg;
+    public float fadeInTime = 2f;
+    public Sprite[] judgeSprites;
 
     private void Start()
     {
@@ -38,6 +43,7 @@ public class ResultManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         // 変換した文字をテキストに入れて表示する
         scoreText.text = scoreStr + "L";
+        GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1f);
         JudgeAmount();
         yield return new WaitForSeconds(1f);
@@ -56,36 +62,41 @@ public class ResultManager : MonoBehaviour
 
     private void JudgeAmount()
     {
-        Debug.Log(score);
         if(score <= 300)
         {
             PlaySound(0);
             judgeText.text = "A Cup!!";
+            FadeAnim(0);
         }
         else if(score <= 600)
         {
             PlaySound(1);
             judgeText.text = "A Bucket!!";
+            FadeAnim(1);
         }
         else if(score <= 1000)
         {
             PlaySound(2);
             judgeText.text = "A Bath!!";
+            FadeAnim(2);
         }
         else if(score <= 1500)
         {
             PlaySound(3);
             judgeText.text = "Pool!!";
+            FadeAnim(3);
         }
         else if(score <= 2000)
         {
             PlaySound(4);
             judgeText.text = "Lake!!";
+            FadeAnim(4);
         }
         else
         {
             PlaySound(5);
             judgeText.text = "Sea!!";
+            FadeAnim(5);
         }
     }
 
@@ -99,5 +110,12 @@ public class ResultManager : MonoBehaviour
     {
         audioSource.clip = soundEffects[soundIndex];
         audioSource.Play();
+    }
+
+    public void FadeAnim(int animIndex)
+    {
+        JudgeImg.sprite = judgeSprites[animIndex];
+        // JudgeImg.sprite.canvasRenderer.SetAlpha(0.0f);
+        JudgeImg.CrossFadeAlpha(1f,fadeInTime,false);
     }
 }
