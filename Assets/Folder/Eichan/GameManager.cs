@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {   //const
-    public static int GameScrTop = 11;
+    public static int GameScrTop = 12;
     public static int GameScrRight = 6;
     private const string oxygen = "Red(Clone)";
     private const string hydrogen = "Blue(Clone)";
 
+    public int score;
+    public int rensa = 0;
     public GameObject[] blocks; 
     public GameObject twinBlocks;
     GameObject currentBlocks;
@@ -25,8 +27,7 @@ public class GameManager : MonoBehaviour
         StartCreateBlocks();
         // array();
         // StartCoroutine(EraseBlocks());
-        // Debug.Log(CountRenketsu(1,1,0));
-        
+        // Debug.Log(CountH_fromO(1,1,0));
     }
     
     //not use
@@ -65,22 +66,73 @@ public class GameManager : MonoBehaviour
         }
         if(BoolRenketsu())
         {
+            rensa++;    
+            Debug.Log("Count: " + rensa);
             StartCoroutine(EraseBlocks());
         }
         if(!BoolRenketsu())
-        {
-            CreateBlocks();
+        {   
+            rensa = 0;
+            if(CanCreateBlock())
+            {
+                CreateBlocks();
+            }
+            else if(!CanCreateBlock())
+            {
+                GameOver();
+            }
         }
     }
 
-    bool BoolRenketsu()
+    void GameOver()
     {
         for(int x=0; x<GameScrRight; x++)
         {
             for(int y=0; y<GameScrTop+2; y++)
             {
+                Destroy(fieldBlocks[x,y]);
+            }
+        }
+        Destroy(currentBlocks);
+        Destroy(nextBlocks1);
+        Destroy(nextBlocks2);
+    }
+
+    bool CanCreateBlock()
+    {
+        for(int x=0; x<GameScrRight; x++)
+            {
+                if(fieldBlocks[x,GameScrTop] != null)//ゲームオーバーって
+                {
+                    return false;
+                }
+            }
+        return true;
+    }
+
+    bool BoolRenketsu()
+    {
+        for(int y=0; y<GameScrTop+2; y++)
+        {
+            for(int x=0; x<GameScrRight; x++)
+            {
                 checkedFieldBlocks.Clear();
-                if(CountRenketsu(x, y, 0) >= 3 && fieldBlocks[x,y] != null)
+                if(CountH_fromO(x, y, 0) == 5 && fieldBlocks[x,y] != null)
+                {
+                    return true;
+                }
+                checkedFieldBlocks.Clear();
+                if(CountH_fromO(x, y, 0) == 4 && fieldBlocks[x,y] != null)
+                {
+                    return true;
+                }
+                checkedFieldBlocks.Clear();
+                if(CountH_fromO(x, y, 0) == 3 && fieldBlocks[x,y] != null)
+                {
+                    return true;
+                }
+                checkedFieldBlocks.Clear();
+                if(CountH_fromO(x, y, 0) == 6 && fieldBlocks[x,y] != null)
                 {
                     return true;
                 }
@@ -89,7 +141,6 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    //ここをいじる
     IEnumerator EraseBlocks()
     {
         yield return new WaitForSeconds(0.1f);
@@ -98,9 +149,7 @@ public class GameManager : MonoBehaviour
             for(int x=0; x<GameScrRight; x++)
             {
                 checkedFieldBlocks.Clear();
-
-                checkedFieldBlocks.Clear();
-                if(CountRenketsu(x, y, 0) == 5 && fieldBlocks[x,y] != null)//↑→
+                if(CountH_fromO(x, y, 0) == 5 && fieldBlocks[x,y] != null)//↑→
                 {
                     Destroy(fieldBlocks[x,y]);
                     Destroy(fieldBlocks[x,y+1]);
@@ -108,14 +157,15 @@ public class GameManager : MonoBehaviour
                     yield return new WaitForSeconds(0.1f);
                 }
                 checkedFieldBlocks.Clear();
-                if(CountRenketsu(x, y, 0) == 4 && fieldBlocks[x,y] != null)//←↓
+                if(CountH_fromO(x, y, 0) == 4 && fieldBlocks[x,y] != null)//←↓
                 {
                     Destroy(fieldBlocks[x,y]);
                     Destroy(fieldBlocks[x,y-1]);
                     Destroy(fieldBlocks[x-1,y]);
                     yield return new WaitForSeconds(0.1f);
                 }
-                if(CountRenketsu(x, y, 0) == 3 && fieldBlocks[x,y] != null)//↓→
+                checkedFieldBlocks.Clear();
+                if(CountH_fromO(x, y, 0) == 3 && fieldBlocks[x,y] != null)//↓→
                 {
                     Destroy(fieldBlocks[x,y]);
                     Destroy(fieldBlocks[x,y-1]);
@@ -123,7 +173,7 @@ public class GameManager : MonoBehaviour
                     yield return new WaitForSeconds(0.1f);
                 }
                 checkedFieldBlocks.Clear();
-                if(CountRenketsu(x, y, 0) == 6 && fieldBlocks[x,y] != null)//←↑
+                if(CountH_fromO(x, y, 0) == 6 && fieldBlocks[x,y] != null)//←↑
                 {
                     Destroy(fieldBlocks[x,y]);
                     Destroy(fieldBlocks[x,y+1]);
@@ -135,9 +185,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         Drop();
     }
-    
-    //ここをいじる
-    int CountRenketsu(int x, int y, int renketusu)
+
+    int CountH_fromO(int x, int y, int renketusu)
     {
         //check countedfieldblock or not
         if(fieldBlocks[x,y] == null || checkedFieldBlocks.Contains(fieldBlocks[x,y]))

@@ -97,11 +97,6 @@ public class BlocksController : MonoBehaviour
             {
                 return false;
             }
-            if(Y >= 13)
-            {
-                Debug.Log("GameOver");
-                return false;
-            }
         }
         return true;
     }
