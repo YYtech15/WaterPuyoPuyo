@@ -21,32 +21,24 @@ public class BGMController : MonoBehaviour
         }
     }
 
-    public AudioSource CurrentBGM;  //現在のBGM
     public AudioSource MovedBGM;    //移動先のBGM
 
-    private string CurrentSceneName;
     public string MovedSceneName;
 
     void Start()
     {
-        CurrentSceneName = SceneManager.GetActiveScene().name;
-        CurrentBGM.Play();
         SceneManager.activeSceneChanged += OnActiveSceneChanged;
     }
 
     //シーンが切り替わった時に呼ばれるメソッド　
     void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
     {
-            //シーンがどう変わったかで判定
             if (nextScene.name == MovedSceneName)
             {
-              CurrentBGM.Stop();
-              MovedBGM.Play();
+                MovedBGM.Play();
             }
-             if (nextScene.name == CurrentSceneName)
-             {
-              CurrentBGM.Play();
-              MovedBGM.Stop();
-             }
+            else {
+                MovedBGM.Stop();
+            }
     }
 }
