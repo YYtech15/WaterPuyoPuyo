@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Folder/Tomoking/InitScene.unity
+    guid: 2019167e175229c4eafb427acd6f034c
+  - enabled: 1
+    path: Assets/Folder/Tomoking/TestScene.unity
+    guid: 0ab507ee760d7d94eb63cedf2ee5a2da
   m_configObjects: {}
