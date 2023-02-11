@@ -18,6 +18,11 @@ public class ScoreRecorder : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
+    void Update()
+    {
+        currentScoreText.text = score.ToString();
+    }
+
     // スコアを加算する関数
     public void AddScore()
     {

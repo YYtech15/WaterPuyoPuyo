@@ -10,16 +10,9 @@ public class ResultManager : MonoBehaviour
     [SerializeField] GameObject retryButton;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI judgeText;
-    [SerializeField] AudioSource sound1;
-    [SerializeField] AudioSource sound2;
-    [SerializeField] AudioSource sound3;
-    [SerializeField] AudioSource sound4;
-    [SerializeField] AudioSource sound5;
-    [SerializeField] AudioSource sound6;
-
-
-
     // int score = 800;
+    public List<AudioClip> soundEffects;
+    private AudioSource audioSource;
     string scoreStr;
     int score;
 
@@ -28,6 +21,7 @@ public class ResultManager : MonoBehaviour
         ScoreRecorder scoreRecorder;
         GameObject obj = GameObject.Find("ScoreRecorder");
         scoreRecorder = obj.GetComponent<ScoreRecorder>();
+        audioSource = GetComponent<AudioSource>();
         score = scoreRecorder.score;
         titleButton.SetActive(false);
         retryButton.SetActive(false);
@@ -62,34 +56,35 @@ public class ResultManager : MonoBehaviour
 
     private void JudgeAmount()
     {
+        Debug.Log(score);
         if(score <= 300)
         {
-            sound1.Play();
+            PlaySound(0);
             judgeText.text = "A Cup!!";
         }
         else if(score <= 600)
         {
-            sound2.Play();
+            PlaySound(1);
             judgeText.text = "A Bucket!!";
         }
         else if(score <= 1000)
         {
-            sound3.Play();
+            PlaySound(2);
             judgeText.text = "A Bath!!";
         }
         else if(score <= 1500)
         {
-            sound4.Play();
+            PlaySound(3);
             judgeText.text = "Pool!!";
         }
         else if(score <= 2000)
         {
-            sound5.Play();
+            PlaySound(4);
             judgeText.text = "Lake!!";
         }
         else
         {
-            sound6.Play();
+            PlaySound(5);
             judgeText.text = "Sea!!";
         }
     }
@@ -98,5 +93,11 @@ public class ResultManager : MonoBehaviour
     {
         titleButton.SetActive(true);
         retryButton.SetActive(true);
+    }
+
+    public void PlaySound(int soundIndex)
+    {
+        audioSource.clip = soundEffects[soundIndex];
+        audioSource.Play();
     }
 }
