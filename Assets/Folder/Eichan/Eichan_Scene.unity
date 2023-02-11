@@ -207,6 +207,61 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1792399750
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1792399752}
+  - component: {fileID: 1792399751}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1792399751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792399750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 145e1ac719b64cf4a992a6cccf91f1a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  oxygen: Red(Clone)
+  hydrogen: Blue(Clone)
+  carbon: Green(Clone)
+  score: 0
+  rensa: 0
+  blocks:
+  - {fileID: 8247455128458873828, guid: 4ce68f038123d0e4a87d0e174f419b2a, type: 3}
+  - {fileID: 9063415177271462617, guid: 78f9b2413a5dbbd4e81cb3dec5ffa3ec, type: 3}
+  - {fileID: 2523780899823205953, guid: e8d4b1d3ba20c784db2bead78ea71bc6, type: 3}
+  - {fileID: 3967842452307902858, guid: f048f98b9e0923a439ef6d5795f1a55b, type: 3}
+  twinBlocks: {fileID: 4775821818951379624, guid: 8e706a67af90aea48abd1bee9d571472, type: 3}
+--- !u!4 &1792399752
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792399750}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.535945, y: 4.2982926, z: 0.12598597}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1823365773
 GameObject:
   m_ObjectHideFlags: 0
