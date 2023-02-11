@@ -90,13 +90,13 @@ public class ResultManager : MonoBehaviour
         {
             PlaySound(4);
             judgeText.text = "Lake!!";
-            FadeAnim(4);
+            // FadeAnim(4);
         }
         else
         {
             PlaySound(5);
             judgeText.text = "Sea!!";
-            FadeAnim(5);
+            // FadeAnim(5);
         }
     }
 
