@@ -31,18 +31,18 @@ public class GameManager : MonoBehaviour
     }
     
     //to debug
-    void array()
-    {
-        for(int x=0; x<GameScrRight; x++)
-        {
-            for(int y=0; y<GameScrTop-1; y++)
-            {
-                GameObject piece = Instantiate(blocks[Random.Range(0,3)]);
-                piece.transform.position = new Vector3(x,y,0);
-                fieldBlocks[x,y] = piece;
-            }
-        }
-    }
+    // void array()
+    // {
+    //     for(int x=0; x<GameScrRight; x++)
+    //     {
+    //         for(int y=0; y<GameScrTop-1; y++)
+    //         {
+    //             GameObject piece = Instantiate(blocks[Random.Range(0,3)]);
+    //             piece.transform.position = new Vector3(x,y,0);
+    //             fieldBlocks[x,y] = piece;
+    //         }
+    //     }
+    // }
 
     public void Drop()
     {
@@ -67,6 +67,8 @@ public class GameManager : MonoBehaviour
         if(JudgeRenketsu())
         {
             StartCoroutine(EraseBlocks());
+            rensa++;
+            Debug.Log("Count: " + rensa);
         }
         if(!JudgeRenketsu())
         {   
@@ -148,7 +150,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator EraseBlocks()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1.0f);
         for(int y=0; y<GameScrTop+2; y++)
         {   
             for(int x=0; x<GameScrRight; x++)
@@ -157,31 +159,27 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(DestroyCO2(x,y));
             }
         }
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1.0f);
         Drop();
     }
 
             IEnumerator DestroyH2O(int x, int y)
             {
                 checkedFieldBlocks.Clear();
-                yield return new WaitForSeconds(0.4f);
+                yield return new WaitForSeconds(0.1f);
                 if(CountH_fromO(x, y, 0) == 5 && fieldBlocks[x,y] != null)//↑→
                 {
                     Destroy(fieldBlocks[x,y]);
                     Destroy(fieldBlocks[x,y+1]);
                     Destroy(fieldBlocks[x+1,y]);
-                    rensa++;
-                    Debug.Log("Count: " + rensa);
                 }
                 checkedFieldBlocks.Clear();
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.1f);
                 if(CountH_fromO(x, y, 0) == 4 && fieldBlocks[x,y] != null)//←↓
                 {
                     Destroy(fieldBlocks[x,y]);
                     Destroy(fieldBlocks[x,y-1]);
                     Destroy(fieldBlocks[x-1,y]);
-                    rensa++;
-                    Debug.Log("Count: " + rensa);
                 }
                 checkedFieldBlocks.Clear();
                 yield return new WaitForSeconds(0.1f);
@@ -190,18 +188,14 @@ public class GameManager : MonoBehaviour
                     Destroy(fieldBlocks[x,y]);
                     Destroy(fieldBlocks[x,y-1]);
                     Destroy(fieldBlocks[x+1,y]);
-                    rensa++;
-                    Debug.Log("Count: " + rensa);
                 }
                 checkedFieldBlocks.Clear();
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(0.1f);
                 if(CountH_fromO(x, y, 0) == 6 && fieldBlocks[x,y] != null)//←↑
                 {
                     Destroy(fieldBlocks[x,y]);
                     Destroy(fieldBlocks[x,y+1]);
                     Destroy(fieldBlocks[x-1,y]);
-                    rensa++;
-                    Debug.Log("Count: " + rensa);
                 }
                 checkedFieldBlocks.Clear();
             }
@@ -214,9 +208,7 @@ public class GameManager : MonoBehaviour
                     Destroy(fieldBlocks[x,y]);
                     Destroy(fieldBlocks[x,y+1]);
                     Destroy(fieldBlocks[x,y-1]);
-                    rensa++;
-                    Debug.Log("Count: " + rensa);
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.1f);
                 }
                 checkedFieldBlocks.Clear();
                 if(CountO_fromC(x, y, 0) == 8 && fieldBlocks[x,y] != null)//←→
@@ -224,9 +216,7 @@ public class GameManager : MonoBehaviour
                     Destroy(fieldBlocks[x,y]);
                     Destroy(fieldBlocks[x+1,y]);
                     Destroy(fieldBlocks[x-1,y]);
-                    rensa++;
-                    Debug.Log("Count: " + rensa);
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.1f);
                 }
 
             }
